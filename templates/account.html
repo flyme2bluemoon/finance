@@ -62,7 +62,3 @@
     </div>
 
 {% endblock %}
-
-CREATE TABLE positions ( id int NOT NULL AUTO_INCREMENT, quantity int NOT NULL, price double, date DATE NOT NULL, symbol VARCHAR(6) NOT NULL, instument VARCHAR(255) NOT NULL, user_id int NOT NULL, PRIMARY KEY (id), FOREIGN KEY (user_id) REFERENCES users (id) );
-
-insert into positions (quantity, price, date, symbol, instument, user_id) values (2, 49.03, "2020-08-10", "UBER", "Uber Technologies, Inc.", 8);
