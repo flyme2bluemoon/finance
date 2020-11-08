@@ -7,7 +7,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from functools import wraps
 from flask import Flask, redirect, request, render_template, session
 
-with open("db_creds", "r") as f:
+with open("db_creds.txt", "r") as f:
     password = f.read()
 
 mydb_conn = mysql.connector.connect(
