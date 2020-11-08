@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+    <h3>History</h3>
+    <table class="table table-striped" style="width: 95%; margin-left: auto; margin-right: auto;">
+        <thead class="thead-dark">
+            <!-- symbol, exchange, name, region, currency -->
+            <tr>
+                <th scope="col">Symbol</th>
+                <th scope="col">Instrument</th>
+                <th scope="col">Action</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+                <th scope="col">Date and Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in the_history %}
+            <tr>
+                <td scope="row">{{ i[0] }}</td>
+                <td>{{ i[1] }}</td>
+                <td>{{ i[2] }}</td>
+                <td>{{ i[3] }}</td>
+                <td>{{ i[4]|usd }}</td>
+                <td>{{ i[5] }} {{ i[6] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

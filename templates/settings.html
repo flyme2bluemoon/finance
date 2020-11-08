@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<h3 style="text-align: center;">Account Settings</h3>
+<form action="/settings" method="POST" style="width: 25%; margin-left: auto; margin-right: auto;">
+    <h4>Change Password</h4>
+    <div class="form-group">
+        <input type="hidden" name="form" value="change_passwd">
+        <label for="old_passwd_input">Old Password</label>
+        <input type="password" class="form-control" id="old_passwd" name="old_passwd" placeholder="Old Password" required>
+        <label for="new_passwd_input">New Password</label>
+        <input type="password" class="form-control" id="passwd" name="passwd" placeholder="New Password" required>
+        <label for="new_passwd_input">Confirm New Password</label>
+        <input type="password" class="form-control" id="confirm_passwd" placeholder="Confirm New Password" required>
+    </div>
+    <button type="submit" class="btn btn-primary" id="submit" disabled>Save Changes!</button>
+    <p id="confirm_passwd_label" style="color: red;"></p>
+    <script>
+        document.querySelector("#passwd").onkeyup = function() {
+            if (document.querySelector("#passwd").value === document.querySelector("#confirm_passwd").value) {
+                document.querySelector("#submit").disabled = false;
+                document.querySelector("#confirm_passwd_label").innerHTML = "";
+            } else {
+                document.querySelector("#submit").disabled = true;
+                document.querySelector("#confirm_passwd_label").innerHTML = "Passwords do not match";
+            }
+        }
+        document.querySelector("#confirm_passwd").onkeyup = function() {
+            if (document.querySelector("#passwd").value === document.querySelector("#confirm_passwd").value) {
+                document.querySelector("#submit").disabled = false;
+                document.querySelector("#confirm_passwd_label").innerHTML = "";
+            } else {
+                document.querySelector("#submit").disabled = true;
+                document.querySelector("#confirm_passwd_label").innerHTML = "Passwords do not match";
+            }
+        }
+    </script>
+</form>
+<form action="/settings" method="POST" style="width: 25%; margin-left: auto; margin-right: auto;">
+    <h4>Add Cash</h4>
+    <div class="form-group">
+        <input type="hidden" name="form" value="add_cash">
+        <label for="amount">Amount</label>
+        <input type="number" class="form-control" id="amount" name="amount" placeholder="amount" min="1" max="10000" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Save Changes!</button>
+</form>
+
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+    <h3>Open Positions</h3>
+    <table class="table table-striped" style="width: 95%; margin-left: auto; margin-right: auto;">
+        <thead class="thead-dark">
+            <!-- symbol, exchange, name, region, currency -->
+            <tr>
+                <th scope="col">Symbol</th>
+                <th scope="col">Instrument</th>
+                <th scope="col">Position ID</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+                <th scope="col">Current Price</th>
+                <th scope="col">Date</th>
+                <th scope="col">Live Result</th>
+                <th scope="col">Buy</th>
+                <th scope="col">Sell</th>
+                <th scope="col">Get Quote</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in the_current_positions %}
+            <tr>
+                <td scope="row">{{ i[4] }}</td>
+                <td>{{ i[5] }}</td>
+                <td>POS_{{ i[0] }}</td>
+                <td>{{ i[1] }}</td>
+                <td>{{ i[2]|usd }}</td>
+                <td>{{ i[6]|usd }}</td>
+                <td>{{ i[3] }}</td>
+                <td>{{ i[7]|usd }}</td>
+                <td>
+                    <form action="/buy" method="POST">
+                        <input type="hidden" name="symbol" value="{{ i[4] }}">
+                        <input type="number" class="form-control" id="quantity_input" name="quantity" placeholder="quantity" min="1" required>
+                        <button type="submit" class="btn btn-primary">Buy!</button>
+                    </form>
+                </td>
+                <td>
+                    <form action="/sell" method="POST">
+                        <input type="hidden" name="symbol" value="{{ i[4] }}">
+                        <input type="number" class="form-control" id="quantity_input" name="quantity" placeholder="quantity" min="1" required>
+                        <button type="submit" class="btn btn-primary">Sell!</button>
+                    </form>
+                </td>
+                <td>
+                    <form action="/quote" method="POST">
+                        <input type="hidden" name="symbol" value="{{ i[4] }}">
+                        <button type="submit" class="btn btn-primary">Get Quote!</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div>
+        <p>Live result: {{ the_live_result|usd }}</p>
+        <p>Free funds: {{ the_free_funds|usd }}</p>
+        <p>Account value: {{ the_account_value|usd }}</p>
+    </div>
+
+{% endblock %}
+
+CREATE TABLE positions ( id int NOT NULL AUTO_INCREMENT, quantity int NOT NULL, price double, date DATE NOT NULL, symbol VARCHAR(6) NOT NULL, instument VARCHAR(255) NOT NULL, user_id int NOT NULL, PRIMARY KEY (id), FOREIGN KEY (user_id) REFERENCES users (id) );
+
+insert into positions (quantity, price, date, symbol, instument, user_id) values (2, 49.03, "2020-08-10", "UBER", "Uber Technologies, Inc.", 8);

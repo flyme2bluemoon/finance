@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Aw, snap! There was a error handling your request.</h4>
+        <p>Sorry! {{ message }}.</p>
+        <hr>
+        <p class="mb-0">That's all we know... We apologize for the inconvenience.</p>
+    </div>
+    <img src="/static/robot.png">
+    <br>
+    <button type="button" class="btn btn-success" onclick="window.location.href='/';">Go home!</button>
+
+{% endblock %}

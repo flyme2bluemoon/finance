@@ -1,0 +1,132 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    <style>
+        .right_column {
+            float: left;
+            width: 75%;
+            padding: 5px;
+        }
+        .left_column {
+            width: 20%;
+            padding: 5px;
+        }
+
+        .row::after {
+            content: "";
+            clear: both;
+            display: table;
+            }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        Success!
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <h4>Market summary</h4>
+    <h2>{{ the_result["companyName"] }}</h2>
+    <h3>{{ the_result["primaryExchange"] }}: {{ the_result["symbol"] }}</h3>
+    <h5>Last updated: {{ last_updated }} EDT</h5>
+    {% if the_result["isUSMarketOpen"] %}
+    <h6>The US Markets are open today!</h6>
+    {% else %}
+    <h6>The US Markets are currently closed.</h6>
+    {% endif %}
+    <div style="width: 25%;">
+        <form action="/buy" method="POST">
+            <input type="hidden" name="symbol" value="{{ the_result['symbol'] }}">
+            <input type="number" class="form-control" id="quantity_input" name="quantity" placeholder="quantity" min="1" required>
+            <button type="submit" class="btn btn-primary">Buy!</button>
+        </form>
+    </div>
+    <div class="row">
+        <div class="left_column">
+            <div class="card">
+                <img src="{{ the_logo }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Company Information</h5>
+                    <p class="card-text">{{ the_company_info["description"] }}</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">{{ the_company_info[""] }}</li>
+                    <li class="list-group-item">Industry: {{ the_company_info["industry"] }}</li>
+                    <li class="list-group-item">Sector: {{ the_company_info["sector"] }}</li>
+                    <li class="list-group-item">Employees: {{ the_company_info["employees"] }}</li>
+                    <li class="list-group-item">CEO: {{ the_company_info["CEO"] }}</li>
+                    <li class="list-group-item">Address: {{ the_company_info["address"] }}, {{ the_company_info["city"] }}, {{ the_company_info["state"] }}, {{ the_company_info["zip"] }}, {{ the_company_info["country"] }}</li>
+                    <li class="list-group-item">Website: <a href="{{ the_company_info["website"] }}" target="_blank">{{ the_company_info["website"] }}</a></li>
+                    <li class="list-group-item">Phone: {{ the_company_info["phone"] }}</li>
+                    <!-- <li class="list-group-item">{{ the_company_info[""] }}</li> -->
+                </ul>
+            </div>
+        </div>
+        <div class="right_column">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Current Price</th>
+                        <th scope="col">{{ the_result["latestPrice"]|usd }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td scope="row">Change Points</td>
+                        <td id="change_pts">{{ the_result["change"] }}</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">Change Percent</td>
+                        <td id="change_percent">{{ the_result["changePercent"] }}%</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">Prev close</td>
+                        <td >{{ the_result["previousClose"] }}</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">Open</td>
+                        <td>{{ the_result["open"] }}</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">High</td>
+                        <td>{{ the_result["high"] }}</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">Low</td>
+                        <td>{{ the_result["low"] }}</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">Market Capital</td>
+                        <td>{{ the_result["marketCap"]|usd }}</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">52-week high</td>
+                        <td>{{ the_result["week52High"] }}</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">52-week low</td>
+                        <td>{{ the_result["week52Low"] }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <script>
+                let the_change = Number("{{ the_result["change"] }}");
+                if (the_change > 0) {
+                    document.querySelector("#change_pts").style.color = "green";
+                    document.querySelector("#change_percent").style.color = "green";
+                } else if (the_change < 0) {
+                    document.querySelector("#change_pts").style.color = "red";
+                    document.querySelector("#change_percent").style.color = "red";
+                } else {
+                    document.querySelector("#change_pts").style.color = "black";
+                    document.querySelector("#change_percent").style.color = "black";
+                }
+            </script>
+        </div>
+    </div>
+    <p>Data may be delayed up to 15 minutes. Sorry for the inconvenience.</p>
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+    <h3 style="text-align: center;">Start trading now!</h3>
+    <form action="/signup" method="POST" style="width: 25%; margin-left: auto; margin-right: auto;">
+        <div class="form-group">
+            <label for="fname">First Name</label>
+            <input type="text" class="form-control" id="fname" name="fname" maxlength="255" required autofocus>
+            <label for="lname">Last Name</label>
+            <input type="text" class="form-control" id="lname" name="lname" maxlength="255" required>
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" maxlength="255" required>
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" name="username" maxlength="255" required>
+            <label for="passwd">Password</label>
+            <input type="password" class="form-control" id="passwd" name="passwd" required>
+            <label for="confirm_passwd">Confirm Password</label>
+            <input type="password" class="form-control" id="confirm_passwd" name="confirm_passwd" required>
+            <br>
+            <p id="confirm_passwd_label" style="color: red;"></p>
+        </div>
+        <button type="submit" class="btn btn-primary" id="submit" disabled>Let's Go!</button>
+        <script>
+            document.querySelector("#passwd").onkeyup = function() {
+                if (document.querySelector("#passwd").value === document.querySelector("#confirm_passwd").value) {
+                    document.querySelector("#submit").disabled = false;
+                    document.querySelector("#confirm_passwd_label").innerHTML = "";
+                } else {
+                    document.querySelector("#submit").disabled = true;
+                    document.querySelector("#confirm_passwd_label").innerHTML = "Passwords do not match";
+                }
+            }
+            document.querySelector("#confirm_passwd").onkeyup = function() {
+                if (document.querySelector("#passwd").value === document.querySelector("#confirm_passwd").value) {
+                    document.querySelector("#submit").disabled = false;
+                    document.querySelector("#confirm_passwd_label").innerHTML = "";
+                } else {
+                    document.querySelector("#submit").disabled = true;
+                    document.querySelector("#confirm_passwd_label").innerHTML = "Passwords do not match";
+                }
+            }
+        </script>
+    </form>
+    <br>
+    <a href="/login">Already with us? Sign in here!</a>
+    <br>
+
+{% endblock %}

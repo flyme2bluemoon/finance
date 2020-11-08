@@ -1,0 +1,9 @@
+__pycache__/
+flask_session/
+.DS_Store
+
+symbols.csv
+company_info.json
+api.json
+api_token.txt
+db_creds.txt
